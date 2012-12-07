@@ -1,0 +1,7 @@
+startup_message off
+sessionname Terminal-Tool
+screen 0 ./Tool.py
+split
+focus down
+screen 1 ./Terminal/bin/bash
+

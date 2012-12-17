@@ -3,14 +3,16 @@
 #+------------------------------------------------------------------
 # Import modules here
 #+------------------------------------------------------------------
-import os,time
+import os,time,commands
 
 #+------------------------------------------------------------------
 # Function definitions and globals here
 #+------------------------------------------------------------------
-
+USER=commands.getstatusoutput('whoami')[1]
 LAST_COMMAND="";
 LAST_OUTPUT="";
+LAST_COMMAND_FILE="/tmp/last_command_"+USER
+LAST_OUTPUT_FILE="/tmp/last_output_"+USER
 
 def printHello():
 	os.system('clear')
@@ -21,18 +23,18 @@ def printHello():
 
 def fetchLastCommand():
 	global LAST_COMMAND
-	tempFilePtr=open("/tmp/last_command")
+	tempFilePtr=open(LAST_COMMAND_FILE)
 	LAST_COMMAND=tempFilePtr.read()
 	tempFilePtr.close()
 
 def fetchLastOutput():
 	global LAST_OUTPUT
-	tempFilePtr=open("/tmp/last_output")
+	tempFilePtr=open(LAST_OUTPUT_FILE)
 	LAST_OUTPUT=tempFilePtr.read()
 	tempFilePtr.close()
 	
 def executeLastCommand():
-	os.system("sh /tmp/last_command > /tmp/last_output")
+	os.system("sh "+LAST_COMMAND_FILE+" > "+LAST_OUTPUT_FILE )
 
 #+------------------------------------------------------------------
 # Main flow of code 
@@ -40,7 +42,6 @@ def executeLastCommand():
 
 os.system('PS1=""')
 os.system('clear')
-os.system('chmod 777 /tmp/last_command')
 
 while True:
 	global LAST_COMMAND
